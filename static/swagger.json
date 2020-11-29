@@ -1,0 +1,243 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "description": "Wiki with descriptions of a great variety of Star Wars characters",
+    "version": "1.0.0",
+    "title": "Star Wars characters wiki",
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "paths": {
+    "/": {
+      "get": {
+        "tags": [
+          "Character Request"
+        ],
+        "summary": "Returns characterRequests, which is a json with all the characters in the wiki",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/components/schemas/characterRequests"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Character Request"
+        ],
+        "summary": "Create a new character",
+        "requestBody": {
+          "description": "Character Request Post Object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/character"
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "201": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/components/schemas/id"
+            }
+          },
+          "400": {
+            "description": "Sorry, we dont know what you wanted"
+          }
+        }
+      }
+    },
+    "/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "description": "ID of the character.",
+          "type": "string"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Character Request"
+        ],
+        "summary": "Get character request with given ID",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "Character request id",
+            "schema": {
+              "$ref": "#/components/schemas/id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/components/schemas/character"
+            }
+          },
+          "400": {
+            "description": "Failed. Misunderstood Request."
+          },
+          "404": {
+            "description": "Given character id doesn't exists. Try another!"
+          }
+        }
+      },
+      "put": {
+        "summary": "edit a character request by ID",
+        "tags": [
+          "Character Request"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "Character Request id",
+            "schema": {
+              "$ref": "#/components/schemas/id"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Character Request Object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/character"
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/components/schemas/character"
+            }
+          },
+          "400": {
+            "description": "Sorry, we dont know what you wanted"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete Character Request by ID",
+        "tags": [
+          "Character Request"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "Character Request Id",
+            "schema": {
+              "$ref": "#/components/schemas/id"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/components/schemas/id"
+            }
+          },
+          "400": {
+            "description": "Sorry, we dont know what you wanted"
+          },
+          "404": {
+            "description": "Given character id doesn't exists. Try another!"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "id": {
+        "properties": {
+          "uuid": {
+            "type": "string"
+          }
+        }
+      },
+      "character":{
+        "type": "object",
+        "properties":{
+          "name" : {
+            "type" : "string",
+            "format" : "string"
+          },
+          "birth_year" : {
+            "type" : "string",
+            "format" : "string"
+          },
+          "eye_color" : {
+            "type" : "string",
+            "format" : "string"
+          },
+          "gender" : {
+            "type" : "string",
+            "format" : "string"
+          },
+          "hair_color" : {
+            "type" : "string",
+            "format" : "string"
+          },
+          "height" : {
+            "type" : "string",
+            "format" : "string"
+          },
+          "mass" : {
+            "type" : "string",
+            "format" : "string"
+          },
+          "homeworld" : {
+            "type" : "string",
+            "format" : "string"
+          },
+          "skin_color" : {
+            "type" : "string",
+            "format" : "string"
+          },
+          "species" : {
+            "type" : "string",
+            "format" : "string"
+          }
+        }
+      },
+      "characterRequests": {
+        "type": "object",
+        "properties": {
+          "character*": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/character"
+            }
+          }
+        }
+      }
+    }
+  }
+}
